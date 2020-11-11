@@ -4,7 +4,7 @@ type buttonProps = {
   icon?: string ;
   text?: string ;
   color?: string ;
-  callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  callback?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const ButtonWIthIcon: React.FC<buttonProps> = ({

@@ -1,12 +1,16 @@
 import * as React from 'react';
 
+type props = {
+    labelOn: string,
+    labelOff: string
+}
 export class CheckboxWithLabel extends React.Component<{
     labelOn: string,
     labelOff: string
 }, {
     isChecked: boolean
 }> {
-    constructor(props: any) {
+    constructor(props: props) {
         super(props);
         this.state = { isChecked: false };
     }
