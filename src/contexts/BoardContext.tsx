@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer } from "react";
-import {dragEndDifferentCol, dragEndSameCol, removeElement} from "../utils/util";
-import { InitialStateType } from "../types";
+import {dragEndDifferentCol, dragEndSameCol, findColumn, removeElement} from "../utils/util";
+import {ColumnObjectType, ColumnType, InitialStateType} from "../types";
 
 const SAME_COLUMNS_DRAG = "SAME_COLUMNS_DRAG";
 const DIFF_COLUMNS_DRAG = "DIFF_COLUMNS_DRAG";
@@ -137,8 +137,9 @@ const boardReducer = (state: InitialStateType, action: any) => {
 
     }
     case DELETE_ITEM : {
-      let result: any = removeElement(action.payload.item.id, state.columns);
-      const column = (state.columns)[result[1]];
+      let result: any|undefined = findColumn(action.payload.item.id, state.columns);
+
+      const column = (state.columns as ColumnType)[result];
 
 
       return {
@@ -147,7 +148,7 @@ const boardReducer = (state: InitialStateType, action: any) => {
           ...state.columns,
           [column.id]: {
             ...column,
-            itemsIds: result[0]
+            itemsIds: removeElement(action.payload.item.id, column)
           }
         }
       };
