@@ -1,14 +1,14 @@
-import React from "react";
-import { Board as context } from "../../contexts/BoardContext";
-import { DragDropContext } from "react-beautiful-dnd";
-import { BoardColumn } from "../../components/BoardColumn";
-import {BoardEl} from "./board.styles";
+import React  from "react";
+import { useBoard as context } from "../../contexts/BoardContext";
+import {DragDropContext, DropResult} from "react-beautiful-dnd";
+import { Column } from "../../components/column/Column";
+import { BoardEl } from "./board.styles";
 import { ItemObjectType, ColumnObjectType } from "../../types";
 
 const Board = () => {
   const { state, dispatch } = context();
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
 
     if (!destination) {
@@ -51,25 +51,21 @@ const Board = () => {
   };
 
   return (
-    <>
-      <BoardEl>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {state.columnsOrder.map((columnId) => {
-            // Get id of the current column
-            const column: ColumnObjectType = state.columns[columnId];
+    <BoardEl>
+      <DragDropContext onDragEnd={onDragEnd}>
+        {state.columnsOrder.map((columnId: string) => {
+          // Get id of the current column
+          const column: ColumnObjectType = state.columns[columnId];
 
-            // Get item belonging to the current column
-            const items: ItemObjectType[] = column.itemsIds.map(
-              (itemId) => state.items[itemId]
-            );
-            // Render the BoardColumn component
-            return (
-              <BoardColumn key={column.id} column={column} items={items} />
-            );
-          })}
-        </DragDropContext>
-      </BoardEl>
-    </>
+          // Get item belonging to the current column
+          const items: ItemObjectType[] = column.itemsIds.map(
+            (itemId: string) => state.items[itemId]
+          );
+          // Render the Column component
+          return <Column key={column.id} column={column} items={items} />;
+        })}
+      </DragDropContext>
+    </BoardEl>
   );
 };
 

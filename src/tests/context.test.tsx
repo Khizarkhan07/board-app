@@ -1,13 +1,13 @@
 import {AppProvider, BoardContext, initialState,} from "../contexts/BoardContext";
 import React, {useContext} from 'react'
 import {mount, shallow} from "enzyme";
-import {CheckboxWithLabel} from "../components/checkboxWithLabel";
-import {BoardItem} from "../components/BoardItem";
-import {ButtonWIthIcon} from "../components/ButtonWithIcon";
+import {Card} from "../components/card/Card";
 import {dragEndDifferentCol, dragEndSameCol} from "../utils/util";
-
+import Navbar from "../pages/navbar/Navbar";
 test('ADD_ITEM', () => {
-    const wrapper = shallow(<BoardItem index={1} item={{ id: "1", content: "Learn TypeScript" }}/>)
+   /* const wrapper = shallow(<Card index={1} item={{ id: "1", content: "Learn TypeScript" }}/>)*/
+     const wrapper = shallow(<Navbar/>)
+    expect(wrapper.find('.dropdown-item').childAt(0).simulate('change'))
 
 });
 

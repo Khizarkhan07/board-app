@@ -1,4 +1,4 @@
-import {ColumnObjectType,InitialStateType} from '../types'
+import {ColumnObjectType, ColumnType, InitialStateType} from '../types'
 export const dragEndDifferentCol = (
     columnStart: ColumnObjectType,
     originalPosition: number,
@@ -55,4 +55,18 @@ export const dragEndSameCol = (columnStart : ColumnObjectType,originalPosition: 
             [newColumnStart.id]: newColumnStart,
         },
     };
+}
+
+export const removeElement = (id: string, columns:ColumnType ) => {
+    for (const property in columns) {
+        const items = columns[property].itemsIds;
+
+        for(let i=0 ; i < items.length; i++){
+            if(id === items[i]){
+                items.splice(i, 1);
+                break
+            }
+        }
+        return[items, property]
+    }
 }

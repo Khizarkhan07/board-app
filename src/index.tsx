@@ -6,13 +6,14 @@ import Navbar from "./pages/navbar/Navbar";
 
 const Page = () => {
   return (
-    <>
-      <Navbar />
+    <React.Fragment>
+        <Navbar />
+        <AppProvider>
+            <Board />
+        </AppProvider>
+    </React.Fragment>
 
-      <AppProvider>
-        <Board />
-      </AppProvider>
-    </>
+
   );
 };
 

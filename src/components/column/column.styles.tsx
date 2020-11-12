@@ -14,10 +14,23 @@ export const BoardColumnWrapper = styled.div`
     margin-left: 12px;
   }
 `;
-
+export const TitleWrapper = styled.div`
+  span {
+    display: none;
+    margin-top: -40px;
+    float: right;
+  }
+  &:hover {
+    span {
+      display: flex;
+    }
+  }
+`;
 export const BoardColumnTitle = styled.h6`
+  display: flex;
   color: #314261;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
+ 
 `;
 
 export const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
@@ -30,5 +43,4 @@ export const AddButtonWrapper = styled.div`
   min-height: 20px;
   border-radius: 4px;
   margin-top: 5px;
-  
 `;

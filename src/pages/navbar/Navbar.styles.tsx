@@ -9,7 +9,7 @@ export const BrandWrapper = styled.div`
   display: flex;
   img {
     margin-top: 4px;
-    margin-left: 44%;
+    margin-left: 47%;
     width: 30px;
     height: 30px;
   }

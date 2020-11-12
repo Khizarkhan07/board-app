@@ -1,17 +1,19 @@
 import React, { createContext, useContext, useReducer } from "react";
-import {dragEndDifferentCol, dragEndSameCol} from "../utils/util";
+import {dragEndDifferentCol, dragEndSameCol, removeElement} from "../utils/util";
 import { InitialStateType } from "../types";
 
 const SAME_COLUMNS_DRAG = "SAME_COLUMNS_DRAG";
 const DIFF_COLUMNS_DRAG = "DIFF_COLUMNS_DRAG";
 const ADD_ITEM = "ADD_ITEM";
 const EDIT_ITEM = "EDIT_ITEM";
+const DELETE_ITEM = "DELETE_ITEM";
 const ADD_CARD = "ADD_CARD";
+const EDIT_COLUMN_TITLE = "EDIT_COLUMN_TITLE";
 export const initialState = {
   items: {
     "1": { id: "1", content: "Learn TypeScript" },
     "2": { id: "2", content: "Build Basic Trello" },
-    "3": { id: "3", content: "Use Strongly Type Components" },
+    "3": { id: "3", content: "TypeComponents" },
   },
 
   columns: {
@@ -119,6 +121,37 @@ const boardReducer = (state: InitialStateType, action: any) => {
         ],
       };
     }
+    case EDIT_COLUMN_TITLE: {
+
+      const column = (state.columns)[action.payload.column];
+      return {
+        ...state,
+        columns: {
+          ...state.columns,
+          [column.id]: {
+            ...column,
+            title: action.payload.title.columnTitle
+          }
+        }
+      }
+
+    }
+    case DELETE_ITEM : {
+      let result: any = removeElement(action.payload.item.id, state.columns);
+      const column = (state.columns)[result[1]];
+
+
+      return {
+        ...state,
+        columns: {
+          ...state.columns,
+          [column.id]: {
+            ...column,
+            itemsIds: result[0]
+          }
+        }
+      };
+    }
     default:
       return state;
   }
@@ -134,6 +167,6 @@ const AppProvider: React.FC = ({ children }) => {
   );
 };
 
-export const Board = () => useContext(BoardContext);
+export const useBoard = () => useContext(BoardContext);
 export { BoardContext, AppProvider };
 
