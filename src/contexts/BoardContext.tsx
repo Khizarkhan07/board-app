@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { dragEndDifferentCol, dragEndSameCol } from "../utils/util";
+import {dragEndDifferentCol, dragEndSameCol} from "../utils/util";
 import { InitialStateType } from "../types";
 
 const SAME_COLUMNS_DRAG = "SAME_COLUMNS_DRAG";
@@ -7,7 +7,7 @@ const DIFF_COLUMNS_DRAG = "DIFF_COLUMNS_DRAG";
 const ADD_ITEM = "ADD_ITEM";
 const EDIT_ITEM = "EDIT_ITEM";
 const ADD_CARD = "ADD_CARD";
-const initialState = {
+export const initialState = {
   items: {
     "1": { id: "1", content: "Learn TypeScript" },
     "2": { id: "2", content: "Build Basic Trello" },
@@ -65,6 +65,7 @@ const boardReducer = (state: InitialStateType, action: any) => {
       );
     }
     case DIFF_COLUMNS_DRAG: {
+
       const {
         columnStart,
         originalPosition,
@@ -135,3 +136,4 @@ const AppProvider: React.FC = ({ children }) => {
 
 export const Board = () => useContext(BoardContext);
 export { BoardContext, AppProvider };
+

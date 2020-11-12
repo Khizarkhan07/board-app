@@ -56,7 +56,7 @@ export const BoardItem: React.FC<BoardItemProps> = ({ index, item }) => {
             }}
             className={"fa fa-times"}
           />
-          <textarea
+          <textarea data-value={"value"}
             className="form-control mb-1 mt-1"
             value={itemContent}
             onChange={(e) => {
@@ -68,6 +68,7 @@ export const BoardItem: React.FC<BoardItemProps> = ({ index, item }) => {
             color={"#5aac44"}
             callback={handleEdit}
           />
+
         </TextAreaWrapper>
       )}
     </React.Fragment>

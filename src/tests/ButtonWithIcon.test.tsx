@@ -1,6 +1,9 @@
 import * as React from "react";
 import { shallow } from "enzyme";
 import { ButtonWIthIcon } from "../components/ButtonWithIcon";
+import {mount} from "enzyme";
+import {BoardItem} from "../components/BoardItem";
+import {BoardColumn} from "../components/BoardColumn";
 
 test("Button has icon", () => {
   const Button = shallow(<ButtonWIthIcon icon={"fa fa-plus"} />);
@@ -36,4 +39,3 @@ test("Button callback test", () => {
   Button.simulate("click");
   expect(test).toBe(true);
 });
-
