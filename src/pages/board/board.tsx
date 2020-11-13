@@ -22,6 +22,14 @@ const Board = () => {
     }
 
     if(type === 'column') {
+
+      if (
+          destination.droppableId === source.droppableId &&
+          destination.index === source.index
+      ) {
+        return;
+      }
+
       const newColumnOrder = Array.from(state.columnsOrder);
       newColumnOrder.splice(source.index,1);
       newColumnOrder.splice(destination.index, 0, draggableId)
