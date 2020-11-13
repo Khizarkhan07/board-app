@@ -11,9 +11,9 @@ const ADD_CARD = "ADD_CARD";
 const EDIT_COLUMN_TITLE = "EDIT_COLUMN_TITLE";
 export const initialState = {
   items: {
-    "1": { id: "1", content: "Learn TypeScript" },
-    "2": { id: "2", content: "Build Basic Trello" },
-    "3": { id: "3", content: "TypeComponents" },
+    "1": { id: "1", content: "Learn TypeScript" , description: 'Learn all the types and implement', updated: new Date( Date.now())},
+    "2": { id: "2", content: "Build Basic Trello" , description: 'Build app with using types you learned' , updated: new Date(Date.now()) },
+    "3": { id: "3", content: "TypeComponents", description: 'Learn all the types and implement', updated: new Date( Date.now())  },
   },
 
   columns: {
@@ -104,8 +104,14 @@ const boardReducer = (state: InitialStateType, action: any) => {
     }
     case EDIT_ITEM: {
       const { item } = action.payload;
-      state.items[item.id].content = item.content;
-      return state;
+
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [item.id]: item
+        }
+      }
     }
     case ADD_CARD: {
       return {

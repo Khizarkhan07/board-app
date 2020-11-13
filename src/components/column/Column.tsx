@@ -29,6 +29,7 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
   const [title, setTitle] = useState<string>("");
   const [columnTitle, setColumnTitle] = useState<string>(props.column.title);
   const [content, setContent] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const addClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAddField(true);
@@ -41,7 +42,7 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
   const addItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch({
       type: "ADD_ITEM",
-      payload: { column: props.column.id, item: { content, id: nanoid() } },
+      payload: { column: props.column.id, item: { content, id: nanoid(), description, updated: new Date(Date.now()) } },
     });
     setAddField(false);
   };
@@ -134,11 +135,19 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
                 className="fa fa-times"
               />
               <textarea
+                rows={1}
                 className="form-control mb-1"
-                placeholder="Enter a title for this card"
+                placeholder="title"
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
+              />
+              <textarea
+                  className="form-control mb-1"
+                  placeholder="description"
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
               />
               <ButtonWIthIcon callback={addItem} color="#5aac44" text="Add" />
             </TextAreaWrapper>

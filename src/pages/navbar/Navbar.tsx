@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React  from "react";
 import { createGlobalStyle } from "styled-components";
 import Logo from "../../assests/images/trello-mark-blue.png";
 import { NavbarWrapper, BrandWrapper } from "./Navbar.styles";
@@ -15,7 +15,6 @@ export const GlobalStyle = createGlobalStyle<GlobalProps>`
 
 
 const Navbar = () => {
-  const [background, setBackground] = useState<string>("#0079bf");
 
   return (
     <NavbarWrapper>
@@ -25,7 +24,7 @@ const Navbar = () => {
           <h5>Trello</h5>
         </BrandWrapper>
       </nav>
-      <GlobalStyle background={background} />
+      <GlobalStyle background={"#0079bf"} />
     </NavbarWrapper>
   );
 };

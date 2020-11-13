@@ -10,15 +10,19 @@ export const BoardItemEl = styled.div<BoardItemStylesProps>`
 
   span {
     display: none;
-    margin-top: -7px;
+    margin-top: -96px;
     float: right;
   }
-
+  div {
+    font-size: 11px;
+  }
+  
   &:hover {
     background-color: #f7fafc;
     span {
       display: flex;
     }
+    
   }
 
   & + & {

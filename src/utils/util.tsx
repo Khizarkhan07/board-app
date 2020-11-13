@@ -24,8 +24,18 @@ export const dragEndDifferentCol = (
     itemsIds: newFinishItemsIds,
   };
 
+
+  const item = (state.items)[draggableId];
+
   return {
     ...state,
+    items: {
+      ...state.items,
+      [item.id]: {
+        ...item,
+        updated: new Date(Date.now())
+      }
+    },
     columns: {
       ...state.columns,
       [newColumnStart.id]: newColumnStart,
@@ -49,8 +59,17 @@ export const dragEndSameCol = (
     itemsIds: newItemsIds,
   };
 
+  const item = (state.items)[draggableId];
+
   return {
     ...state,
+    items: {
+      ...state.items,
+      [item.id]: {
+        ...item,
+        updated: new Date(Date.now())
+      }
+    },
     columns: {
       ...state.columns,
       [newColumnStart.id]: newColumnStart,

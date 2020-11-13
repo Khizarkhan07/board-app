@@ -1,6 +1,8 @@
 export type ItemObjectType = {
     id: string;
     content: string;
+    description: string;
+    updated: Date;
 };
 export type ItemType = {
     [key: string]: ItemObjectType;

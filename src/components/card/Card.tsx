@@ -7,6 +7,7 @@ import {
 } from "react-beautiful-dnd";
 
 import { BoardItemEl, TextAreaWrapper } from "./card.styles";
+import {BoardColumnTitle} from "../column/column.styles";
 import { ItemObjectType } from "../../types"
 import { ButtonWIthIcon } from "../ButtonWithIcon";
 
@@ -20,6 +21,7 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
   const { dispatch } = useBoard();
   const [editState, setEditState] = useState(false);
   const [itemContent, setItemContent] = useState(item.content);
+  const [description, setDescription] = useState(item.description);
   const handleEditState = (e: React.MouseEvent<HTMLButtonElement>) => {
     setEditState(true);
   };
@@ -29,7 +31,7 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
   };
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch({type: 'EDIT_ITEM', payload: {item: {id: item.id, content: itemContent}}})
+    dispatch({type: 'EDIT_ITEM', payload: {item: {id: item.id, content: itemContent, description}}})
     setEditState(false);
   };
   return (
@@ -43,7 +45,13 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
               ref={provided.innerRef}
               isDragging={snapshot.isDragging}
             >
-              {item.content}
+              <BoardColumnTitle> {item.content} </BoardColumnTitle>
+              <hr/>
+              {item.description}
+              <br/>
+              <div className={"text-muted"}>
+              {item.updated.toLocaleTimeString()}
+              </div>
               <span>
                 <ButtonWIthIcon
                   icon="fa fa-pencil"
@@ -66,12 +74,21 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
             className="fa fa-times"
           />
           <textarea
+            rows={1}
             className="form-control mb-1 mt-1"
             value={itemContent}
             onChange={(e) => {
               setItemContent(e.target.value);
             }}
           />
+          <textarea
+              className="form-control mb-1 mt-1"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+          />
+
           <ButtonWIthIcon
             text="Save"
             color="#5aac44"
