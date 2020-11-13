@@ -41,26 +41,35 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
   };
 
   const addItem = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch({
-      type: "ADD_ITEM",
-      payload: { column: props.column.id, item: { content, id: nanoid(), description, updated: new Date(Date.now()) } },
-    });
-    setAddField(false);
+    if(Boolean(description) && Boolean(content)) {
+      dispatch({
+        type: "ADD_ITEM",
+        payload: { column: props.column.id, item: { content, id: nanoid(), description, updated: new Date(Date.now()) } },
+      });
+      setAddField(false);
+    }
+
   };
   const editColumnTitle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch({
-      type: "EDIT_COLUMN_TITLE",
-      payload: { column: props.column.id, title: { columnTitle } },
-    });
-    setTitleToggle(false);
+    if(Boolean(columnTitle)){
+      dispatch({
+        type: "EDIT_COLUMN_TITLE",
+        payload: { column: props.column.id, title: { columnTitle } },
+      });
+      setTitleToggle(false);
+    }
+
   };
 
   const addCard = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch({
-      type: "ADD_CARD",
-      payload: { column: { title: title, id: nanoid(), itemsIds: [] } },
-    });
-    setAddCardField(false);
+    if(Boolean(title)){
+      dispatch({
+        type: "ADD_CARD",
+        payload: { column: { title: title, id: nanoid(), itemsIds: [] } },
+      });
+      setAddCardField(false);
+    }
+
   };
 
   return (
