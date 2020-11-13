@@ -24,8 +24,7 @@ export const dragEndDifferentCol = (
     itemsIds: newFinishItemsIds,
   };
 
-
-  const item = (state.items)[draggableId];
+  const item = state.items[draggableId];
 
   return {
     ...state,
@@ -33,8 +32,8 @@ export const dragEndDifferentCol = (
       ...state.items,
       [item.id]: {
         ...item,
-        updated: new Date(Date.now())
-      }
+        updated: new Date(Date.now()),
+      },
     },
     columns: {
       ...state.columns,
@@ -59,7 +58,7 @@ export const dragEndSameCol = (
     itemsIds: newItemsIds,
   };
 
-  const item = (state.items)[draggableId];
+  const item = state.items[draggableId];
 
   return {
     ...state,
@@ -67,8 +66,8 @@ export const dragEndSameCol = (
       ...state.items,
       [item.id]: {
         ...item,
-        updated: new Date(Date.now())
-      }
+        updated: new Date(Date.now()),
+      },
     },
     columns: {
       ...state.columns,
@@ -95,11 +94,10 @@ export const findColumn = (id: string, columns: ColumnType) => {
 };
 
 export const removeElement = (id: string, column: ColumnObjectType) => {
-    for (let i=0; i< column.itemsIds.length; i++){
-        if (id === column.itemsIds[i]) {
-
-            column.itemsIds.splice(i, 1);
-        }
+  for (let i = 0; i < column.itemsIds.length; i++) {
+    if (id === column.itemsIds[i]) {
+      column.itemsIds.splice(i, 1);
     }
-    return column.itemsIds;
-}
+  }
+  return column.itemsIds;
+};

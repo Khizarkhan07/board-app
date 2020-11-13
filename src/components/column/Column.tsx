@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useBoard } from "../../contexts/BoardContext";
-import { Droppable } from "react-beautiful-dnd";
+import {Droppable, Draggable, DraggableProvided, DraggableStateSnapshot} from "react-beautiful-dnd";
 import { nanoid } from "nanoid";
 import {
   BoardColumnWrapper,
@@ -19,6 +19,7 @@ type BoardColumnProps = {
   key: string;
   column: ColumnObjectType;
   items: ItemObjectType[];
+  index: number;
 };
 
 export const Column: React.FC<BoardColumnProps> = (props) => {
@@ -63,126 +64,136 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
   };
 
   return (
-    <BoardColumnWrapper>
-      {props.column.title ? (
-        <React.Fragment>
-          {!titleToggle ? (
-            <TitleWrapper>
-              <BoardColumnTitle>{props.column.title}</BoardColumnTitle>
-              <span>
+
+    <Draggable draggableId={props.column.id} index={props.index}>
+      {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
+
+          <BoardColumnWrapper
+              {...provided.draggableProps}
+              ref={provided.innerRef}
+          >
+            {props.column.title ? (
+                <React.Fragment>
+                  {!titleToggle ? (
+                      <TitleWrapper>
+                        <BoardColumnTitle
+                            {...provided.dragHandleProps}>{props.column.title}</BoardColumnTitle>
+                        <span>
                 <ButtonWIthIcon
-                  icon="fa fa-pencil"
-                  callback={(e) => {
-                    setTitleToggle(true);
-                  }}
+                    icon="fa fa-pencil"
+                    callback={(e) => {
+                      setTitleToggle(true);
+                    }}
                 />
               </span>
-            </TitleWrapper>
-          ) : (
-            <TextAreaWrapper>
-              <i
-                onClick={(e) => {
-                  setTitleToggle(false);
-                  setColumnTitle(props.column.title);
-                }}
-                className="fa fa-times"
-              />
-              <textarea
-                className="form-control mb-1"
-                placeholder="Enter a title for this column"
-                value={columnTitle}
-                onChange={(e) => {
-                  setColumnTitle(e.target.value);
-                }}
-              />
-              <ButtonWIthIcon
-                callback={editColumnTitle}
-                color="#5aac44"
-                text="Add"
-              />
-            </TextAreaWrapper>
-          )}
+                      </TitleWrapper>
+                  ) : (
+                      <TextAreaWrapper>
+                        <i
+                            onClick={(e) => {
+                              setTitleToggle(false);
+                              setColumnTitle(props.column.title);
+                            }}
+                            className="fa fa-times"
+                        />
+                        <textarea
+                            className="form-control mb-1"
+                            placeholder="Enter a title for this column"
+                            value={columnTitle}
+                            onChange={(e) => {
+                              setColumnTitle(e.target.value);
+                            }}
+                        />
+                        <ButtonWIthIcon
+                            callback={editColumnTitle}
+                            color="#5aac44"
+                            text="Add"
+                        />
+                      </TextAreaWrapper>
+                  )}
 
-          <Droppable droppableId={props.column.id}>
-            {(provided, snapshot) => (
-              <BoardColumnContent
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                isDraggingOver={snapshot.isDraggingOver}
-              >
-                {props.items.map((item: any, index: number) => (
-                  <Card key={item.id} item={item} index={index} />
-                ))}
-                {provided.placeholder}
-              </BoardColumnContent>
+                  <Droppable droppableId={props.column.id} type={"task"}>
+                    {(provided, snapshot) => (
+                        <BoardColumnContent
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            isDraggingOver={snapshot.isDraggingOver}
+                        >
+                          {props.items.map((item: any, index: number) => (
+                              <Card key={item.id} item={item} index={index} />
+                          ))}
+                          {provided.placeholder}
+                        </BoardColumnContent>
+                    )}
+                  </Droppable>
+
+                  {!addField ? (
+                      <AddButtonWrapper>
+                        <ButtonWIthIcon
+                            callback={addClick}
+                            icon="fa fa-plus"
+                            text="Add another card"
+                        />
+                      </AddButtonWrapper>
+                  ) : (
+                      <TextAreaWrapper>
+                        <i
+                            onClick={(e) => {
+                              setAddField(false);
+                            }}
+                            className="fa fa-times"
+                        />
+                        <textarea
+                            rows={1}
+                            className="form-control mb-1"
+                            placeholder="title"
+                            onChange={(e) => {
+                              setContent(e.target.value);
+                            }}
+                        />
+                        <textarea
+                            className="form-control mb-1"
+                            placeholder="description"
+                            onChange={(e) => {
+                              setDescription(e.target.value);
+                            }}
+                        />
+                        <ButtonWIthIcon callback={addItem} color="#5aac44" text="Add" />
+                      </TextAreaWrapper>
+                  )}
+                </React.Fragment>
+            ) : (
+                <React.Fragment>
+                  {!addCardField ? (
+                      <AddButtonWrapper>
+                        <ButtonWIthIcon
+                            callback={addCardClick}
+                            icon="fa fa-plus"
+                            text="Add Column"
+                        />
+                      </AddButtonWrapper>
+                  ) : (
+                      <TextAreaWrapper>
+                        <i
+                            onClick={(e) => {
+                              setAddCardField(false);
+                            }}
+                            className="fa fa-times"
+                        />
+                        <textarea
+                            className="form-control mb-1"
+                            placeholder="Enter a title for this card"
+                            onChange={(e) => {
+                              setTitle(e.target.value);
+                            }}
+                        />
+                        <ButtonWIthIcon callback={addCard} color="#5aac44" text="Add" />
+                      </TextAreaWrapper>
+                  )}
+                </React.Fragment>
             )}
-          </Droppable>
-
-          {!addField ? (
-            <AddButtonWrapper>
-              <ButtonWIthIcon
-                callback={addClick}
-                icon="fa fa-plus"
-                text="Add another card"
-              />
-            </AddButtonWrapper>
-          ) : (
-            <TextAreaWrapper>
-              <i
-                onClick={(e) => {
-                  setAddField(false);
-                }}
-                className="fa fa-times"
-              />
-              <textarea
-                rows={1}
-                className="form-control mb-1"
-                placeholder="title"
-                onChange={(e) => {
-                  setContent(e.target.value);
-                }}
-              />
-              <textarea
-                  className="form-control mb-1"
-                  placeholder="description"
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
-              />
-              <ButtonWIthIcon callback={addItem} color="#5aac44" text="Add" />
-            </TextAreaWrapper>
-          )}
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          {!addCardField ? (
-            <AddButtonWrapper>
-              <ButtonWIthIcon
-                callback={addCardClick}
-                icon="fa fa-plus"
-                text="Add Column"
-              />
-            </AddButtonWrapper>
-          ) : (
-            <TextAreaWrapper>
-              <i
-                onClick={(e) => {
-                  setAddCardField(false);
-                }}
-                className="fa fa-times"
-              />
-              <textarea
-                className="form-control mb-1"
-                placeholder="Enter a title for this card"
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-              <ButtonWIthIcon callback={addCard} color="#5aac44" text="Add" />
-            </TextAreaWrapper>
-          )}
-        </React.Fragment>
+          </BoardColumnWrapper>
       )}
-    </BoardColumnWrapper>
+    </Draggable>
   );
 };

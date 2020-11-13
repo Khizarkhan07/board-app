@@ -31,7 +31,7 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
   };
 
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch({type: 'EDIT_ITEM', payload: {item: {id: item.id, content: itemContent, description}}})
+    dispatch({type: 'EDIT_ITEM', payload: {item: {id: item.id, content: itemContent, description, updated: new Date(Date.now())}}})
     setEditState(false);
   };
   return (

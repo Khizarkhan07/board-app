@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer } from "react";
 import {dragEndDifferentCol, dragEndSameCol, findColumn, removeElement} from "../utils/util";
-import {ColumnObjectType, ColumnType, InitialStateType} from "../types";
+import { ColumnType, InitialStateType} from "../types";
 
 const SAME_COLUMNS_DRAG = "SAME_COLUMNS_DRAG";
 const DIFF_COLUMNS_DRAG = "DIFF_COLUMNS_DRAG";
@@ -9,6 +9,7 @@ const EDIT_ITEM = "EDIT_ITEM";
 const DELETE_ITEM = "DELETE_ITEM";
 const ADD_CARD = "ADD_CARD";
 const EDIT_COLUMN_TITLE = "EDIT_COLUMN_TITLE";
+const COLUMN_DRAG = 'COLUMN_DRAG';
 export const initialState = {
   items: {
     "1": { id: "1", content: "Learn TypeScript" , description: 'Learn all the types and implement', updated: new Date( Date.now())},
@@ -158,6 +159,12 @@ const boardReducer = (state: InitialStateType, action: any) => {
           }
         }
       };
+    }
+    case COLUMN_DRAG : {
+      return {
+        ...state,
+        columnsOrder: action.payload.newColumnOrder
+      }
     }
     default:
       return state;
