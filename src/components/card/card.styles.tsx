@@ -7,11 +7,14 @@ export const BoardItemEl = styled.div<BoardItemStylesProps>`
   background-color: ${(props) => (props.isDragging ? "#d3e4ee" : "#fff")};
   border-radius: 4px;
   transition: background-color 0.25s ease-out;
-
+  width: 100%;
+  position: relative;
+  display: inline-block;
   span {
     display: none;
-    margin-top: -96px;
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
   div {
     font-size: 11px;
