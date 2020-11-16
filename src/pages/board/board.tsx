@@ -7,6 +7,7 @@ import { ItemObjectType, ColumnObjectType } from "../../types";
 const Board = () => {
   const { state, dispatch } = useBoard();
 
+
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId, type } = result;
 
@@ -66,6 +67,20 @@ const Board = () => {
     }
   };
 
+  const renderColumns =
+     state.columnsOrder.map((columnId: string, index: number) => {
+      // Get id of the current column
+      const column: ColumnObjectType = state.columns[columnId];
+
+      // Get item belonging to the current column
+      const items: ItemObjectType[] = column.itemsIds.map(
+          (itemId: string) => state.items[itemId]
+      );
+      // Render the Column component
+      return <Column key={column.id} column={column} items={items} index={index} />;
+    });
+
+
   return (
 
       <DragDropContext onDragEnd={onDragEnd}>
@@ -76,17 +91,7 @@ const Board = () => {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
               >
-                {state.columnsOrder.map((columnId: string, index: number) => {
-                  // Get id of the current column
-                  const column: ColumnObjectType = state.columns[columnId];
-
-                  // Get item belonging to the current column
-                  const items: ItemObjectType[] = column.itemsIds.map(
-                      (itemId: string) => state.items[itemId]
-                  );
-                  // Render the Column component
-                  return <Column key={column.id} column={column} items={items} index={index} />;
-                })}
+                {renderColumns}
                 {provided.placeholder}
               </BoardEl>
           )}
