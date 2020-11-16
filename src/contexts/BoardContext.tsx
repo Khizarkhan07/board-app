@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, {createContext, ReactNode, useContext, useReducer} from "react";
 import {dragEndDifferentCol, dragEndSameCol, findColumn, removeElement} from "../utils/util";
 import { ColumnType, InitialStateType} from "../types";
 
@@ -171,7 +171,10 @@ const boardReducer = (state: InitialStateType, action: any) => {
   }
 };
 
-const AppProvider: React.FC = ({ children }) => {
+type Props = {
+  children: ReactNode;
+};
+const AppProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(boardReducer, initialState);
 
   return (

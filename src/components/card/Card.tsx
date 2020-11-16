@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, {useCallback, useState} from "react";
 import {useBoard} from "../../contexts/BoardContext";
 import {
   Draggable,
@@ -22,21 +22,23 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
   const [editState, setEditState] = useState(false);
   const [itemContent, setItemContent] = useState(item.content);
   const [description, setDescription] = useState(item.description);
-  const handleEditState = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleEditState = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setEditState(true);
-  };
+  },[editState]);
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch({type: 'DELETE_ITEM', payload: {item}})
-  };
+  },[item]);
 
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEdit =  (e: React.MouseEvent<HTMLButtonElement>) => {
     if(Boolean(itemContent) && Boolean(description)){
       dispatch({type: 'EDIT_ITEM', payload: {item: {id: item.id, content: itemContent, description, updated: new Date(Date.now())}}})
       setEditState(false);
     }
 
   };
+
   return (
     <React.Fragment>
       {!editState ? (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useCallback, useState} from "react";
 import { useBoard } from "../../contexts/BoardContext";
 import {Droppable, Draggable, DraggableProvided, DraggableStateSnapshot} from "react-beautiful-dnd";
 import { nanoid } from "nanoid";
@@ -32,13 +32,13 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
   const [content, setContent] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const addClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const addClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setAddField(true);
-  };
+  },[addField]);
 
-  const addCardClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const addCardClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     setAddCardField(true);
-  };
+  }, [addCardField]);
 
   const addItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     if(Boolean(description) && Boolean(content)) {
