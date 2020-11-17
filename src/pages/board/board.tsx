@@ -79,7 +79,7 @@ const Board = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId={"abc"} direction={"horizontal"} type={"column"}>
+      <Droppable droppableId={"col"} direction={"horizontal"} type={"column"} >
         {(provided, snapshot) => (
           <BoardEl {...provided.droppableProps} ref={provided.innerRef}>
             {renderColumns}
