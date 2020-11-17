@@ -1,6 +1,6 @@
 import {initialState,} from "../contexts/BoardContext";
 import React from 'react'
-import {dragEndDifferentCol, dragEndSameCol} from "../utils/util";
+import {dragEndDifferentCol, dragEndSameCol, findColumn, removeElement} from "../utils/util";
 
 test('Drag item in same column', () => {
 
@@ -67,3 +67,22 @@ test('Drag item in different column', () => {
 
 });
 
+test('Remove Item in a  column', () => {
+
+    const result = removeElement("2", {
+        id: "column-1",
+        title: "ToDos",
+        itemsIds: ["2", "1", "3"],
+    })
+    expect (result).toEqual( ["1", "3"])
+
+});
+
+test('Find Column With Element', ()=> {
+    const result = findColumn("1", {"column-3": {
+        id: "column-3",
+            title: "QA",
+            itemsIds: ["1"],
+    }},)
+    expect(result).toEqual("column-3")
+})

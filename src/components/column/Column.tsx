@@ -40,6 +40,32 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
     setAddCardField(true);
   }, [addCardField]);
 
+  const handleTitleToggle = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    setTitleToggle((prevState => (!prevState)))
+    setColumnTitle(props.column.title);
+
+  }, [titleToggle]);
+
+
+  const handleEditTitle = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setColumnTitle(e.target.value);
+  }, [columnTitle])
+
+  const handleAddCardToggle = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    setAddField(prevState => !prevState)
+  }, [addField])
+
+  const handleChangeContent = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  }, [content])
+
+  const handleChangeDescription = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(e.target.value);
+  }, [description])
+
+  const handleChangeColTitle = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTitle(e.target.value);
+  }, [title])
   const addItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     if(Boolean(description) && Boolean(content)) {
       dispatch({
@@ -72,6 +98,7 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
 
   };
 
+
   return (
 
     <Draggable draggableId={props.column.id} index={props.index}>
@@ -90,28 +117,21 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
                         <span>
                 <ButtonWIthIcon
                     icon="fa fa-pencil"
-                    callback={(e) => {
-                      setTitleToggle(true);
-                    }}
+                    callback={handleTitleToggle}
                 />
               </span>
                       </TitleWrapper>
                   ) : (
                       <TextAreaWrapper>
                         <i
-                            onClick={(e) => {
-                              setTitleToggle(false);
-                              setColumnTitle(props.column.title);
-                            }}
+                            onClick={handleTitleToggle}
                             className="fa fa-times"
                         />
                         <textarea
                             className="form-control mb-1"
                             placeholder="Enter a title for this column"
                             value={columnTitle}
-                            onChange={(e) => {
-                              setColumnTitle(e.target.value);
-                            }}
+                            onChange={handleEditTitle}
                         />
                         <ButtonWIthIcon
                             callback={editColumnTitle}
@@ -147,25 +167,19 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
                   ) : (
                       <TextAreaWrapper>
                         <i
-                            onClick={(e) => {
-                              setAddField(false);
-                            }}
+                            onClick={handleAddCardToggle}
                             className="fa fa-times"
                         />
                         <textarea
                             rows={1}
                             className="form-control mb-1"
                             placeholder="title"
-                            onChange={(e) => {
-                              setContent(e.target.value);
-                            }}
+                            onChange={handleChangeContent}
                         />
                         <textarea
                             className="form-control mb-1"
                             placeholder="description"
-                            onChange={(e) => {
-                              setDescription(e.target.value);
-                            }}
+                            onChange={handleChangeDescription}
                         />
                         <ButtonWIthIcon callback={addItem} color="#5aac44" text="Add" />
                       </TextAreaWrapper>
@@ -192,9 +206,7 @@ export const Column: React.FC<BoardColumnProps> = (props) => {
                         <textarea
                             className="form-control mb-1"
                             placeholder="Enter a title for this card"
-                            onChange={(e) => {
-                              setTitle(e.target.value);
-                            }}
+                            onChange={handleChangeColTitle}
                         />
                         <ButtonWIthIcon callback={addCard} color="#5aac44" text="Add" />
                       </TextAreaWrapper>

@@ -39,6 +39,19 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
 
   };
 
+  const handleEditToogle = useCallback((e : React.MouseEvent<HTMLButtonElement>) => {
+    setEditState(!editState)
+  }, [editState])
+
+  const handleItemContent = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setItemContent(e.target.value)
+  }, [itemContent])
+
+  const handleDescription = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(e.target.value)
+  }, [description])
+
+
   return (
     <React.Fragment>
       {!editState ? (
@@ -73,25 +86,19 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
       ) : (
         <TextAreaWrapper>
           <i
-            onClick={(e) => {
-              setEditState(false);
-            }}
+            onClick={handleEditToogle}
             className="fa fa-times"
           />
           <textarea
             rows={1}
             className="form-control mb-1 mt-1"
             value={itemContent}
-            onChange={(e) => {
-              setItemContent(e.target.value);
-            }}
+            onChange={handleItemContent}
           />
           <textarea
               className="form-control mb-1 mt-1"
               value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
+              onChange={handleDescription}
           />
 
           <ButtonWIthIcon

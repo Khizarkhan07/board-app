@@ -1,5 +1,6 @@
 import React from "react";
 
+
 type buttonProps = {
   icon?: string ;
   text?: string ;
@@ -25,7 +26,7 @@ export const ButtonWIthIcon: React.FC<buttonProps> = ({
       onClick={callback}
       className="btn btn-light btn-outline mb-1"
     >
-      {icon && <i className={icon + " mr-1"} style={{ color: "#fffff" }}/>}
+      {icon && <i className={icon + " mr-1"}/>}
       {text && <span>{text}</span>}
     </button>
   );
