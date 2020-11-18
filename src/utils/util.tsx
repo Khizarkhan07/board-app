@@ -26,7 +26,7 @@ export const dragEndDifferentCol = (
 
   const item = state.items[draggableId];
 
-  return {
+  const newState = {
     ...state,
     items: {
       ...state.items,
@@ -41,6 +41,8 @@ export const dragEndDifferentCol = (
       [newColumnFinish.id]: newColumnFinish,
     },
   };
+  storeData(newState);
+  return newState;
 };
 
 export const dragEndSameCol = (
@@ -60,7 +62,7 @@ export const dragEndSameCol = (
 
   const item = state.items[draggableId];
 
-  return {
+  const newState = {
     ...state,
     items: {
       ...state.items,
@@ -74,6 +76,8 @@ export const dragEndSameCol = (
       [newColumnStart.id]: newColumnStart,
     },
   };
+  storeData(newState);
+  return newState;
 };
 
 export const findColumn = (id: string, columns: ColumnType) => {
@@ -101,3 +105,20 @@ export const removeElement = (id: string, column: ColumnObjectType) => {
   }
   return column.itemsIds;
 };
+
+export const storeData = (data: InitialStateType) => {
+
+  window.localStorage.setItem("data", JSON.stringify(data));
+
+}
+
+export const getData = (): InitialStateType | boolean  => {
+  if (typeof window == "undefined") {
+    return false;
+  }
+  if (localStorage.getItem("data")) {
+    return JSON.parse(localStorage.getItem("data") as any);
+  } else {
+    return false;
+  }
+}

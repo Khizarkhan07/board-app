@@ -52,6 +52,7 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
   }, [description])
 
 
+  console.log(item.updated)
   return (
     <React.Fragment>
       {!editState ? (
@@ -68,7 +69,7 @@ export const Card: React.FC<BoardItemProps> = ({ index, item }) => {
               {item.description}
               <br/>
               <div className={"text-muted"}>
-              {item.updated.toLocaleTimeString()}
+              {new Date(item.updated).toLocaleTimeString()}
               </div>
               <span>
                 <ButtonWIthIcon

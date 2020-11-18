@@ -1,11 +1,23 @@
-import React, { useMemo } from "react";
+import React, {useEffect, useMemo} from "react";
 import { useBoard } from "../../contexts/BoardContext";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import { Column } from "../../components/column/Column";
 import { BoardEl } from "./board.styles";
-import { ItemObjectType, ColumnObjectType } from "../../types";
+import {ItemObjectType, ColumnObjectType} from "../../types";
+import {getData, storeData} from "../../utils/util";
 const Board = () => {
-  const { state, dispatch } = useBoard();
+  let { state, dispatch } = useBoard();
+
+
+  useEffect(()=> {
+    if(getData() === false) {
+      storeData(state)
+    }
+    else {
+      const data = getData();
+      dispatch( {type: 'CURRENT_STATE', payload: {data}})
+    }
+  }, [])
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId, type } = result;
@@ -34,6 +46,7 @@ const Board = () => {
       newColumnOrder.splice(destination.index, 0, draggableId);
 
       dispatch({ type: "COLUMN_DRAG", payload: { newColumnOrder } });
+
       return;
     }
 
@@ -51,6 +64,7 @@ const Board = () => {
           draggableId,
         },
       });
+      console.log(state);
     } else {
       dispatch({
         type: "DIFF_COLUMNS_DRAG",
@@ -63,6 +77,7 @@ const Board = () => {
         },
       });
     }
+
   };
 
   const renderColumns = useMemo(() => {

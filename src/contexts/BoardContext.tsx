@@ -1,5 +1,5 @@
 import React, {createContext, ReactNode, useContext, useReducer} from "react";
-import {dragEndDifferentCol, dragEndSameCol, findColumn, removeElement} from "../utils/util";
+import {dragEndDifferentCol, dragEndSameCol, findColumn, removeElement, storeData} from "../utils/util";
 import { ColumnType, InitialStateType} from "../types";
 
 const SAME_COLUMNS_DRAG = "SAME_COLUMNS_DRAG";
@@ -10,6 +10,7 @@ const DELETE_ITEM = "DELETE_ITEM";
 const ADD_CARD = "ADD_CARD";
 const EDIT_COLUMN_TITLE = "EDIT_COLUMN_TITLE";
 const COLUMN_DRAG = 'COLUMN_DRAG';
+const CURRENT_STATE = 'CURRENT_STATE';
 export const initialState = {
   items: {
     "1": { id: "1", content: "Learn TypeScript" , description: 'Learn all the types and implement', updated: new Date( Date.now())},
@@ -40,6 +41,7 @@ export const initialState = {
     },
   },
   columnsOrder: ["column-1", "column-2", "column-3", "column-5"],
+
 };
 
 const BoardContext = createContext<{
@@ -59,6 +61,7 @@ const boardReducer = (state: InitialStateType, action: any) => {
         newPosition,
         draggableId,
       } = action.payload;
+
       return dragEndSameCol(
         columnStart,
         originalPosition,
@@ -91,7 +94,7 @@ const boardReducer = (state: InitialStateType, action: any) => {
 
       column.itemsIds.push(action.payload.item.id);
 
-      return {
+      const newState = {
         ...state,
         items: {
           ...state.items,
@@ -102,20 +105,24 @@ const boardReducer = (state: InitialStateType, action: any) => {
           [action.payload.column]: column,
         },
       };
+      storeData(newState);
+      return newState;
     }
     case EDIT_ITEM: {
       const { item } = action.payload;
 
-      return {
+      const newState = {
         ...state,
         items: {
           ...state.items,
           [item.id]: item
         }
       }
+      storeData(newState);
+      return newState;
     }
     case ADD_CARD: {
-      return {
+      const newState =  {
         ...state,
         columns: {
           ...state.columns,
@@ -127,11 +134,13 @@ const boardReducer = (state: InitialStateType, action: any) => {
           ...state.columnsOrder.slice(state.columnsOrder.length - 1),
         ],
       };
+      storeData(newState);
+      return newState;
     }
     case EDIT_COLUMN_TITLE: {
 
       const column = (state.columns)[action.payload.column];
-      return {
+      const newState = {
         ...state,
         columns: {
           ...state.columns,
@@ -141,6 +150,8 @@ const boardReducer = (state: InitialStateType, action: any) => {
           }
         }
       }
+      storeData(newState);
+      return newState;
 
     }
     case DELETE_ITEM : {
@@ -149,7 +160,7 @@ const boardReducer = (state: InitialStateType, action: any) => {
       const column = (state.columns as ColumnType)[result];
 
 
-      return {
+      const newState = {
         ...state,
         columns: {
           ...state.columns,
@@ -159,12 +170,20 @@ const boardReducer = (state: InitialStateType, action: any) => {
           }
         }
       };
+      storeData(newState);
+      return newState;
     }
     case COLUMN_DRAG : {
-      return {
+      const newState = {
         ...state,
-        columnsOrder: action.payload.newColumnOrder
+        columnsOrder: action.payload.newColumnOrder,
       }
+      storeData(newState);
+      return newState;
+    }
+    case CURRENT_STATE : {
+      state = action.payload.data
+      return state;
     }
     default:
       return state;
