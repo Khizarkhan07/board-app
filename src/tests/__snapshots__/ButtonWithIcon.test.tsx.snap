@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button has icon 1`] = `
+<button
+  className="btn btn-light btn-outline mb-1"
+  style={
+    Object {
+      "background": undefined,
+      "width": "100%",
+    }
+  }
+>
+  <i
+    className="fa fa-plus mr-1"
+    style={
+      Object {
+        "color": "#fffff",
+      }
+    }
+  />
+</button>
+`;
